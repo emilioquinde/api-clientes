@@ -4,13 +4,14 @@ import axios from 'axios';
 import Link from 'next/link';
 
 export default function Detalle() {
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
   const router = useRouter();
   const { id } = router.query;
   const [cliente, setCliente] = useState(null);
 
   useEffect(() => {
     if (id) {
-      axios.get(`http://localhost:3000/clientes/${id}`)
+      axios.get(`${API_URL}/clientes/${id}`)
         .then(res => setCliente(res.data))
         .catch(err => console.error(err));
     }

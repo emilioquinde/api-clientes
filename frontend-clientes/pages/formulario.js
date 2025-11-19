@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 export default function Formulario() {
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
   const router = useRouter();
   const { id } = router.query; // Si hay ID, es edición
 
@@ -18,7 +19,7 @@ export default function Formulario() {
   useEffect(() => {
     if (id) {
       // Cargar datos si es edición
-      axios.get(`http://localhost:3000/clientes/${id}`)
+      axios.get(`${API_URL}/clientes/${id}`)
         .then(res => setForm(res.data))
         .catch(err => console.error(err));
     }
@@ -33,10 +34,10 @@ export default function Formulario() {
     // Validación HTML5 automática se activará con los atributos 'required'
     try {
       if (id) {
-        await axios.put(`http://localhost:3000/clientes/${id}`, form);
-      } else {
-        await axios.post('http://localhost:3000/clientes', form);
-      }
+          await axios.put(`${API_URL}/clientes/${id}`, form);
+        } else {
+          await axios.post(`${API_URL}/clientes`, form);
+        }
       router.push('/'); // Volver al inicio
     } catch (error) {
       alert('Error al guardar');

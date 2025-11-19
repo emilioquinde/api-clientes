@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 export default function Home() {
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
   const [clientes, setClientes] = useState([]);
   const [ciudadFiltro, setCiudadFiltro] = useState('');
   const [promedio, setPromedio] = useState(null);
@@ -14,8 +15,8 @@ export default function Home() {
     try {
       // Conecta al backend que hicimos en el paso anterior
       const url = ciudad 
-        ? `http://localhost:3000/clientes?ciudad=${ciudad}` 
-        : 'http://localhost:3000/clientes';
+        ? `${API_URL}/clientes?ciudad=${ciudad}` 
+        : `${API_URL}/clientes`;
       const res = await axios.get(url);
       setClientes(res.data);
     } catch (error) {
@@ -26,7 +27,7 @@ export default function Home() {
   // Cargar promedio (Funcionalidad Adicional)
   const fetchPromedio = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/clientes/promedio-compras');
+      const res = await axios.get(`${API_URL}/clientes/promedio-compras`);
       setPromedio(res.data.valor);
     } catch (error) {
       console.error("Error cargando promedio", error);
