@@ -61,7 +61,7 @@ const clienteController = {
             const { nombre, correo, telefono, ciudad, monto_compras } = req.body;
             const [result] = await db.query(
                 'UPDATE clientes SET nombre = ?, correo = ?, telefono = ?, ciudad = ?, monto_compras = ? WHERE id = ?',
-                [nombre, correo, telefono, ciudad, monto_compras, req.params.id]
+                [nombre, correo, telefono, ciudad, monto_compras || 0, req.params.id]
             );
             if (result.affectedRows === 0) return res.status(404).json({ message: 'Cliente no encontrado' });
             res.json({ message: 'Cliente actualizado correctamente' });
